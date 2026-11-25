@@ -132,3 +132,9 @@ The calendar and productivity chart are lazy-loaded from the main frontend chunk
 - Rotate the MySQL password before production deployment; never commit `.env`.
 - Nginx and Supervisor templates are available in [deploy/remindly.conf](./deploy/remindly.conf)
   and [deploy/remindly-worker.conf](./deploy/remindly-worker.conf).
+
+## Navigation
+
+- Desktop sidebar and mobile bottom navigation use the same React Router paths:
+  `/`, `/tasks`, `/calendar`, `/reminders`, dan `/settings`.
+- Task, Calendar, Reminder, and Settings pages load their real data from `/api/v1`.
