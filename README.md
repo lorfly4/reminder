@@ -122,6 +122,20 @@ Untuk produksi, jalankan queue melalui Supervisor dan scheduler melalui cron:
 
 The calendar and productivity chart are lazy-loaded from the main frontend chunk.
 
+## Blade frontend
+
+- Frontend seluruhnya dirender oleh Laravel Blade.
+- Tidak ada React, React Router, atau TypeScript runtime.
+- Navigasi desktop/mobile menggunakan route Blade server-side.
+- CSS diproses melalui Vite/Tailwind.
+
+## PWA
+
+- Manifest: `/manifest.webmanifest`
+- Service worker: `/sw.js`
+- Icon: `/icons/icon-192.png` dan `/icons/icon-512.png`
+- Buka melalui HTTPS untuk instalasi PWA.
+
 ## Login and production notes
 
 - Login/register redirects only after the session cookie is established; `/api/v1/user`
