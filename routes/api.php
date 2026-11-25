@@ -17,7 +17,7 @@ use App\Http\Controllers\Api\PushSubscriptionController;
 use App\Http\Controllers\Api\NotificationPreferenceController;
 use App\Http\Controllers\Api\SettingsController;
 
-Route::prefix('v1')->group(function (): void {
+Route::prefix('v1')->name('api.v1.')->group(function (): void {
     Route::get('/health', fn (): JsonResponse => response()->json([
         'data' => [
             'status' => 'ok',
