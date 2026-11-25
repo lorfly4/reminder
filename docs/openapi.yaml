@@ -1,0 +1,212 @@
+openapi: 3.0.3
+info:
+  title: Remindly API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000/api/v1
+paths:
+  /health:
+    get:
+      summary: API health
+      responses:
+        "200":
+          description: Service healthy
+  /register:
+    post:
+      summary: Register user
+      responses:
+        "200": { description: Registered }
+        "422": { description: Validation error }
+  /login:
+    post:
+      summary: Login user
+      responses:
+        "200": { description: Logged in }
+        "422": { description: Invalid credentials }
+  /logout:
+    post:
+      security: [{ sanctumCookie: [] }]
+      responses:
+        "200": { description: Logged out }
+  /forgot-password:
+    post:
+      responses:
+        "200": { description: Reset link requested }
+  /reset-password:
+    post:
+      responses:
+        "200": { description: Password reset }
+        "422": { description: Invalid reset request }
+  /dashboard:
+    get:
+      security: [{ sanctumCookie: [] }]
+      responses:
+        "200": { description: Dashboard aggregate }
+  /tasks:
+    get:
+      security: [{ sanctumCookie: [] }]
+      parameters:
+        - { in: query, name: search, schema: { type: string } }
+        - { in: query, name: category_id, schema: { type: integer } }
+        - { in: query, name: priority, schema: { type: string } }
+        - { in: query, name: status, schema: { type: string } }
+        - { in: query, name: sort, schema: { type: string } }
+        - { in: query, name: page, schema: { type: integer } }
+      responses:
+        "200": { description: Paginated tasks }
+    post:
+      security: [{ sanctumCookie: [] }]
+      responses:
+        "201": { description: Task created }
+        "422": { description: Validation error }
+  /tasks/{id}:
+    parameters:
+      - { in: path, name: id, required: true, schema: { type: integer } }
+    get:
+      security: [{ sanctumCookie: [] }]
+      responses:
+        "200": { description: Task detail }
+        "403": { description: Forbidden }
+        "404": { description: Not found }
+    put:
+      security: [{ sanctumCookie: [] }]
+      responses:
+        "200": { description: Task updated }
+        "422": { description: Validation error }
+    delete:
+      security: [{ sanctumCookie: [] }]
+      responses:
+        "200": { description: Task deleted }
+  /tasks/{id}/complete:
+    patch:
+      security: [{ sanctumCookie: [] }]
+      parameters:
+        - { in: path, name: id, required: true, schema: { type: integer } }
+      responses:
+        "200": { description: Task completed }
+  /tasks/{id}/reopen:
+    patch:
+      security: [{ sanctumCookie: [] }]
+      parameters:
+        - { in: path, name: id, required: true, schema: { type: integer } }
+      responses:
+        "200": { description: Task reopened }
+  /tasks/{id}/archive:
+    patch:
+      security: [{ sanctumCookie: [] }]
+      parameters:
+        - { in: path, name: id, required: true, schema: { type: integer } }
+      responses:
+        "200": { description: Task archived }
+  /tasks/{id}/unarchive:
+    patch:
+      security: [{ sanctumCookie: [] }]
+      parameters:
+        - { in: path, name: id, required: true, schema: { type: integer } }
+      responses:
+        "200": { description: Task unarchived }
+  /tasks/{id}/reschedule:
+    patch:
+      security: [{ sanctumCookie: [] }]
+      parameters:
+        - { in: path, name: id, required: true, schema: { type: integer } }
+      responses:
+        "200": { description: Task rescheduled }
+  /categories:
+    get:
+      security: [{ sanctumCookie: [] }]
+      responses:
+        "200": { description: Categories }
+    post:
+      security: [{ sanctumCookie: [] }]
+      responses:
+        "201": { description: Category created }
+  /categories/{id}:
+    put:
+      security: [{ sanctumCookie: [] }]
+      parameters:
+        - { in: path, name: id, required: true, schema: { type: integer } }
+      responses:
+        "200": { description: Category updated }
+    delete:
+      security: [{ sanctumCookie: [] }]
+      parameters:
+        - { in: path, name: id, required: true, schema: { type: integer } }
+      responses:
+        "200": { description: Category deleted }
+  /reminders:
+    get:
+      security: [{ sanctumCookie: [] }]
+      responses:
+        "200": { description: Reminder list }
+    post:
+      security: [{ sanctumCookie: [] }]
+      responses:
+        "201": { description: Reminder created }
+  /reminders/{id}/toggle:
+    patch:
+      security: [{ sanctumCookie: [] }]
+      parameters:
+        - { in: path, name: id, required: true, schema: { type: integer } }
+      responses:
+        "200": { description: Reminder toggled }
+  /reminders/{id}/snooze:
+    post:
+      security: [{ sanctumCookie: [] }]
+      parameters:
+        - { in: path, name: id, required: true, schema: { type: integer } }
+      responses:
+        "200": { description: Reminder snoozed }
+  /calendar/events:
+    get:
+      security: [{ sanctumCookie: [] }]
+      parameters:
+        - { in: query, name: start, required: true, schema: { type: string, format: date-time } }
+        - { in: query, name: end, required: true, schema: { type: string, format: date-time } }
+      responses:
+        "200": { description: Calendar events }
+  /notifications:
+    get:
+      security: [{ sanctumCookie: [] }]
+      responses:
+        "200": { description: Notifications }
+  /notifications/unread-count:
+    get:
+      security: [{ sanctumCookie: [] }]
+      responses:
+        "200": { description: Unread count }
+  /notifications/read-all:
+    post:
+      security: [{ sanctumCookie: [] }]
+      responses:
+        "200": { description: Notifications marked read }
+  /analytics/overview:
+    get:
+      security: [{ sanctumCookie: [] }]
+      responses:
+        "200": { description: Analytics overview }
+  /analytics/productivity:
+    get:
+      security: [{ sanctumCookie: [] }]
+      responses:
+        "200": { description: Productivity data }
+  /settings:
+    get:
+      security: [{ sanctumCookie: [] }]
+      responses:
+        "200": { description: Settings }
+    put:
+      security: [{ sanctumCookie: [] }]
+      responses:
+        "200": { description: Settings updated }
+  /activity-logs:
+    get:
+      security: [{ sanctumCookie: [] }]
+      responses:
+        "200": { description: Activity log }
+components:
+  securitySchemes:
+    sanctumCookie:
+      type: apiKey
+      in: cookie
+      name: laravel-session
